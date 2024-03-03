@@ -135,5 +135,386 @@ rep(1:2, each=3) #repeat elements of a vector
 
 ```
 
+# push - pull changes
+$ git pull
+$ git add.
+$ git commit -m "description"
+$ git push
+
 # MANAGING YOUR ENVIRONMENT
+
+Useful commands
+() is used to call function
+```{r commands}
+ls() # lists variables
+list.files() # list files 
+ls(all.names=TRUE) # to list files named with a "." that might be hiden
+ls # prints the source code for the function
+```
+
+```{r commands}
+rm (x) # to delete objects we dont need
+rm(list = ls()) # to delete all objects at the same time
+```
+
+Errors = shown where R cannot proceed with a calculation
+Warnings = mean that function has run, but probably didnt work as expected
+
+## R packages
+You can add functions to R by writing a package or downloading package from someone else.
+
+```{r packages}
+installed.packages() # to view what packages are already installed
+install.packages("packagename") # to install a package
+update.packages() # to update an installed package
+remove.packages("packagename") # to delete a package
+library(packagename) # to make a package available for use
+```
+
+# writing your own code
+
+To learn good coding style
+Google's R style guide https://google.github.io/styleguide/Rguide.xml
+
+formatR package to clean poorly formatted code.
+
+# looking for help
+```{r packages}
+? function_name
+help(function_name)
+# will load up a help page, includes description, usage, arguments, examples...
+? "+" # help with operators use quotes
+help("package name")
+vignette() # help for packages tutorials and extended documentation. Vignette() will list all vignettes for all installed packages
+vignette(package="package-name") # will list all available vignettes for package-name
+vignette("vignette-name") # will open a specific vignette
+```
+
+
+When you kind of remember the function
+
+```{r packages}
+?? function_name #not sure what package your function is in or the name of the function
+```
+
+When you dont know where to start
+what package or function to use? CRAN task views is a mantained list of packages grouped into fields.
+https://cran.r-project.org/web/views/
+
+
+When code doesnt work
+search question in Stack Overflow
+$ dput will dump your data into a copy-pasted format 
+
+```{r packages}
+?dput #will dump your data into a copy-pasted format 
+sessionInfo() #will print out current version of R, and packaged loaded
+```
+# Vocabulary
+
+http://adv-r.had.co.nz/Vocabulary.html
+```{r packages}
+#valid R variable names
+min_height
+max.height
+celsius2kelvin
+MaxLength
+min-length
+
+# creates hidden variable
+.mass 
+
+# unvalid variable names
+2widths
+_age
+
+```
+
+just practice variables
+
+```{r vocab}
+mass <- 47.5
+age <- 122
+mass <- mass * 2.3
+age <- age - 20
+```
+
+```{r vocab}
+#clean environment by erasing variables
+rm (mass,age)
+```
+
+# TIDYVERSE collection
+
+Collection of R packages for data science. Provides framework for data manipulation, visualization and modeling.
+
+```{r tidyverse}
+#install tidyverse packages
+install.packages("tidyverse")
+```
+
+```{r tidyverse}
+??csv #help 
+```
+
+#DATA STRUCTURES
+
+R data structure organized by dimensionality 1D-2D-nD.
+If they are homogeneous = all contents must be of the same type
+- Atomic vector
+- Matrix
+- Array
+
+If they are heterogeneous = contents can be of different types
+- List
+- Data frame
+
+Individual numbers (strings)are vectors (variables) of length one.
+
+```{r data structure}
+str() # find data structure of a variable
+```
+
+## Vectors
+
+Basic data structure
+Two types:
+1. Atomic vectors
+2. Lists
+
+Properties:
+- Type, what it is
+$ typeof()
+- Length, how many elements it contains
+$ length()
+- Attributes, additional data
+$ attributes()
+
+## 1. Atomic vectors
+
+4 types of atomic vectors:
+- logical
+- integer
+- double/numeric
+- character
+
+create vectors usually with c() -means combine
+
+```{r data structure}
+dlb_var <- c(1, 2.5, 4.5)
+
+int_var <- c(1L,6L,10L) # adding L to get an integer and not a double
+
+#logical vectors using True (T) or False (F)
+log_var <-  c(TRUE,FALSE, T, F)
+
+chr_var <-  c("these are","some strings")
+
+c(1, c(2, c(3,4)))
+``` 
+
+Missing values = NA. Logical vector of length one.
+NA will always be coerced to the correct type if used inside c().
+
+## Coercion
+
+Refers to the automatic conversion of data from one data type to another. 
+Occurs implicitly when R expects data of a certain type but receives data of a different type.
+
+All elements of an atomic vector must be the same type, so when you attempt to combine different types they will be coerced to the most flexible type. 
+
+The coercion rules go (transformed into): logical -> integer -> double -> complex -> character
+
+```{r data structure}
+a <- c("a",1)
+b <- c(TRUE, 1)
+c <- c(1L, 10)
+d <- c(a, b, c)
+``` 
+
+```{r data structure}
+typeof(a)
+typeof(b)
+typeof(c)
+typeof(d)
+``` 
+
+You can force the coercion with
+$ as.character()
+$ as.logical()
+$ as.double()
+$ as.integer()
+
+When a logical vector is coerced to an integer or double, TRUE becomes 1 and FALSE becomes 0. This is very useful in conjunction with sum() and mean(), which will calculate the total number and proportion of “TRUE’s”, respectively.
+
+## 2. LISTS
+
+Lists are one dimensional data structures that are different from atomic vectors because their elements can be of any type, including lists. 
+
+We construct lists by using list() instead of c():
+
+```{r data structure}
+x <- c(1,2,3) #cretaes vector
+y <- list(1,2,3) #length 3
+z <- list(1:3, "a", c(TRUE, FALSE, TRUE), c(2.3, 5.9)) #length 4 and different types
+```
+
+```{r data structure}
+typeof(y)
+str(y) # shows content
+str(z)
+```
+Lists are sometimes called recursive vectors, because a list can contain other lists. This makes them fundamentally different from atomic vectors.
+
+```{r data structure}
+g <- list(list(list(list())))
+str(g)
+
+is.recursive(g)
+```
+
+c() VS list()
+c() will combine several lists into one. If given a combination of atomic vectors and lists, c() will coerce the vectors to lists before combining them.
+
+```{r data structure}
+r <- list(list(1, 2), c(3, 4))
+t <- c(list(1, 2), c(3, 4))
+str(r); str(t)
+```
+more tips:
+The typeof() a list is list. You can test for a list with is.list() and coerce to a list with as.list(). You can turn a list into an atomic vector with unlist(). If the elements of a list have different types, unlist() uses the same coercion rules as c().
+
+## ATTRIBUTES
+
+All objects can have arbitrary additional attributes, used to store metadata about the object
+$ attr()
+
+```{r data structure}
+attr()
+# or
+attributes()
+```
+
+Most important attributes:
+- Names:  a character vector giving each element a name
+$ names()
+- Dimensions: turn vectors into matrices and arrays
+$ dim()
+- Class: used to implement the S3 object system
+$ class()
+
+### naming elements in a vector
+
+- When creating a vector: 
+$ x <- c(a = 1, b = 2, c = 3)
+- By modifying an existing vector in place: 
+$ x <- 1:3; names(x) <- c("a", "b", "c")
+- By creating a modified copy of a vector: 
+$ x <- 1:3; x <- setNames(x, c("a", "b", "c"))
+
+```{r data structure}
+x <- 1:3
+x <- setNames(x,c("a","b","c"))
+x
+
+```
+
+```{r data structure}
+names(x)
+
+```
+Names don’t have to be unique and not all elements of a vector need to have a name. If some names are missing, names() will return an empty string for those elements. If all names are missing, names() will return NULL.
+
+You can create a new vector without names using unname(x), or remove names in place with names(x) <- NULL.
+```{r data structure}
+unname(x)
+
+```
+### Factors
+A factor is a vector that can contain only predefined values, and is used to store categorical data. Factors are built on top of integer vectors using two attributes: the class(), “factor”, which makes them behave differently from regular integer vectors, and the levels(), which defines the set of allowed values.
+
+```{r data structure}
+x <- c("a", "b", "b", "a")
+x
+```
+
+```{r data structure}
+x <- factor(x)
+x
+class(x)
+levels(x)
+```
+Factors are useful when you know the possible values a variable may take. Using a factor instead of a character vector makes it obvious when some groups contain no observations:
+```{r data structure}
+sex_char <- c("m", "m", "m") # using a character vector
+sex_factor <- factor(sex_char, levels = c("m", "f")) #using a factor instead
+
+table(sex_char)
+table(sex_factor)
+```
+### Matrices and arrays
+
+Adding a dim() attribute to an atomic vector allows it to behave like a multi-dimensional array. An array with two dimensions is called matrix. Matrices are used commonly as part of the mathematical machinery of statistics. Arrays are much rarer, but worth being aware of.
+
+Matrices and arrays are created with matrix() and array(), or by using the assignment form of dim().
+
+```{r data structure}
+# Two scalar arguments to specify rows and columns
+a <- matrix(1:6, ncol = 3, nrow = 2)
+# One vector argument to describe all dimensions
+b <- array(1:12, c(2, 3, 2))
+# You can also modify an object in place by setting dim()
+c <- 1:12
+dim(c) <- c(3, 4)
+c
+
+x1 <- array(1:5, c(1, 1, 5))
+
+```
+### Data Frames
+
+Used to store data in R.
+A data frame is a list of equal-length vectors --> it's a 2D structure
+
+```{r data structure}
+# data frame functions
+head() #shows first 6 rows
+tail() #shows last 6 rows
+dim()  #returns the dimensions of data frame (i.e. number of rows and number of columns)
+nrow() #number of rows
+ncol() #number of columns
+str()  #structure of data frame - name, type and preview of data in each column
+names() #shows the names attribute for a data frame, which gives the column names.
+sapply(dataframe, class) # shows the class of each column in the data frame
+```
+
+
+#### creating Data frames
+
+$ data.frame() , takes named vectors as input
+```{r data structure}
+
+df <- data.frame(x = 1:3, y = c("a", "b", "c"), stringsAsFactors = FALSE) # turn of behavior of turning strings into factors
+str(df)
+```
+
+
+check if an object is a data frame
+
+```{r data structure}
+class(df)
+#or
+is.data.frame(df)
+
+is.vector(df)
+is.list(df) #list is the vector used to build data frames
+typeof(df)
+
+```
+coerce an object to a data frame
+$ as.data.frame()
+
+- A vector will create a one-column data frame.
+- A list will create one column for each element; it’s an error if they’re not all the same length.
+- A matrix will create a data frame with the same number of columns and rows as the matrix.
 
