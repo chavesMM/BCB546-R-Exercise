@@ -1,0 +1,139 @@
+---
+title: "R lessons in EEOB546"
+author: "Manuela Chaves"
+date: "2024-03-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# INTRODUCTION TO R
+
+# Challenge 1:
+Create a readme file = create a markdown file
+
+# Challenge 2:
+1. Create a directory within your project called graphs.
+Can either create from R console with dir.create or in Terminal with
+
+$ mkdir "graphs"
+
+```{r MKDIR}
+dir.create(graphs)
+```
+
+2. Modify the .gitignore file to contain graphs/ so that this disposable output isn’t versioned.
+
+This is a text file that specifies intentionally untracked files that Git should ignore (we dont want Git to track them), Git wont include them when you make commits or check status of repository
+
+$ echo "graphs/" >> .gitignore
+
+# Challenge 3:
+1. In GitHub, create a New repository, called here BCB546-R-Exercise. Don’t initialize it with a README file because we’ll be importing an existing repository…
+
+2. Make sure you have a proper public key in your GitHub settings
+
+You can add a new key to a new computer/system, google it.
+
+3. In RStudio, again click Tools -> Shell … . Enter
+$ echo "# BCB546-R-Exercise" >> README.md
+$ git add README.md
+$ git commit -m "first commit"
+$ git remote add origin git@github.com/[path to your directory]
+$ git push -u origin main
+
+These instructions also appear in Git once a repository is created
+
+# R operators
+
+An operator is a symbol that tells the compiler to perform specific mathematical or logical manipulations
+
+Arithmetic operators:
+parentheses, exponents, divide, multiply, subtract, add...
+
+```{r operators}
+1 + 100
+((3 + 5) * 2)^5
+5e3 
+```
+Relational operators:
+less than, greater than, less than or equal to, equal to, not equal to
+
+```{r operators}
+1 < 2 # less than
+1 > 2 # greater than
+1 == 1 # equal to
+1!= 1 # not equal to
+```
+Due to machine numeric tolerance, you need to use the all.equal function to represent decimal numbers
+
+Integers = whole numbers without fractions or decimals
+```{r operators}
+0.1 + 0.2 == 0.3
+
+all.equal(0.1 + 0.2, 0.3)
+```
+Other operators
+Logical, assignment, miscellaneous
+
+# Cancelling commands
+To kill incomplete commands or stop running code use "ctrl + c" or "Esc"
+
+
+# VARIABLES AND ASSIGNMENT
+
+Variable = named storage that we can use to manipulate.
+Assignment operator used to assign variables is: 
+
+$ <-
+
+Assign does not print a value, but stores the value in a variable in the environment tab of R. 
+Variables can be used to replace data in a calculation/script. variables can be reassigned
+Assignment values can contain the variable being assigned to
+The right side of the variable can be any valid R expression
+shortcut use "alt -" , can also use = 
+```{r variables}
+x <- 100
+x^2
+x <- x + 1
+y = 2
+```
+Variable names can contain letters, numbers, underscores and periods. They cannot start with a number nor contain spaces at all.
+
+# VECTORIZATION
+
+R is vectorized, meaning that variables and functions can have vectors as values.
+Creating vectors:
+```{r vectorization}
+c(2,4,6) # join elements into a vector
+1:5 # create an integer sequence
+seq(2,3, by=0.5) # create a sequence with a specific increment
+rep(1:2, times=3) # repeat a vector
+rep(1:2, each=3) #repeat elements of a vector
+
+```
+
+# MANAGING YOUR ENVIRONMENT
+
