@@ -518,3 +518,56 @@ $ as.data.frame()
 - A list will create one column for each element; it’s an error if they’re not all the same length.
 - A matrix will create a data frame with the same number of columns and rows as the matrix.
 
+# DATA SUBSETTING
+here are some useful commands to extract columns/rows for the assignment
+
+# TRANSFORMATION
+
+```{r transformation}
+#you can download data set with
+download.file
+```
+
+```{r transformation}
+#reading directly from internet file with read_csv
+dvst <- read.csv("https://raw.githubusercontent.com/vsbuffalo/bds-files/master/chapter-08-r/Dataset_S1.txt")
+
+dvst # only shows what can be fixed in the window
+```
+```{r transformation}
+#reading directly from internet file with read_csv
+View(dvst) # will open the dataset in the viewer to see the whole frame
+```
+
+#### using dplyr
+Function	Action
+filter()	Pick observations by their values
+arrange()	Reorder the rows
+select()	Pick variables by their names
+mutate()	Create new variables with functions of existing variables
+summarise()	Collapse many values down to a single summary
+
+Filtering rows
+```{r transformation}
+summary(select(dvst,`total.SNPs`))
+```
+
+```{r transformation}
+filter(dvst,"total.SNPs" >+ 85)
+```
+
+For other types of combinations, you’ll need to use Boolean operators yourself: & is “and”, | is “or”, and ! is “not”.
+
+filter() only includes rows where the condition is TRUE; it excludes both FALSE and NA values. If you want to preserve missing values, ask for them explicitly:
+
+$ filter(dvst, is.na(Divergence))
+
+filter()
+mutate()
+transmute()
+arrange() - similar to filter but instead of selecting rows, it changes the rows order
+desc() to order descendent
+select() to select columns 
+rename() keeps all variables that arent explicitly mentioned
+summarise() -- dataframe into a single row
+
